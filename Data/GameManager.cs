@@ -89,6 +89,8 @@ public class GameManager
                     Console.WriteLine("잘못된 입력입니다. 다시 한번 선택해주세요.");
                     continue;
             }
+
+            break;
         }
     }
     
