@@ -8,9 +8,10 @@ public class GameManager
     // 싱글톤 패턴 (Singleton Pattern) 구현
 
     #region 싱글톤 패턴
+
     // 싱글톤 인스턴스(내부 접근 용 변수:필드)
     private static GameManager? _instance;
-    
+
     // 외부에서 인스턴스에 접근할 수 있는 정적 속성(프로퍼티)
     public static GameManager Instance
     {
@@ -21,7 +22,7 @@ public class GameManager
             {
                 _instance = new GameManager();
             }
-            
+
             return _instance;
         }
     }
@@ -30,6 +31,11 @@ public class GameManager
     {
         // 클래스가 생성될 때 초기화 작업 수행
     }
+
+    #endregion
+
+    #region 프로퍼티
+    public Player? Player { get; private set; }
     #endregion
 
     #region 게임 시작/종료
@@ -92,9 +98,14 @@ public class GameManager
 
             break;
         }
+        
+        //0:전사, 1:마법사, 2:궁수 - 열거형 변수를 선언
+        // 선택한 이름과 선택한 직업으로 플레이어 캐릭터 생성
+        Player = new Player(name, job);
+        Console.WriteLine($"\n{name}님, {job}직업으로 캐릭터가 생성되었습니다.");
     }
     
-    //0:전사, 1:마법사, 2:궁수 - 열거형 변수를 선언
+    
 
     #endregion
     

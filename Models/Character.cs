@@ -25,8 +25,11 @@ public class Character
     {
         Name = name;
         MaxHP = maxHp;
+        MaxMP = maxMp;
         CurrentHP = maxHp;
+        CurrentMP = maxMp;
         AttackPower = attackPower;
+        Defense = defense;
         Level = level;
         
     }
