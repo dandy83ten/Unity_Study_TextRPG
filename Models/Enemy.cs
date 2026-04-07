@@ -33,7 +33,7 @@ public class Enemy : Character
         // 적 캐릭터의 스탯 (레벨에 비례)
         int maxHp = 50 + (enemyLevel - 1) * 20;
         int maxMp = 20 + (enemyLevel - 1) * 10;
-        int attackPower = 10 + (enemyLevel - 1) * 5;
+        int attackPower = 20 + (enemyLevel - 1) * 5;
         int defense = 5 + (enemyLevel - 1) * 3;
         int goldReward = 20 + (enemyLevel - 1) * 10;
 
@@ -54,7 +54,24 @@ public class Enemy : Character
     
     public override int Attack(Character target)
     {
-        return target.TakeDamage(AttackPower);
+        // return target.TakeDamage(AttackPower);
+        
+        // 랜덤 공격력 부여
+        // 일반공격 (70%) / 강한공격 (30%)
+        Random random = new Random();
+
+        if (random.NextDouble() < 0.7)
+        {
+            // 일반공격
+            return target.TakeDamage(AttackPower);
+        }
+        else
+        {
+            // 강한공격
+            Console.WriteLine($"{Name}의 강한공격!");
+            int damage = (int)(AttackPower * 1.5f);
+            return target.TakeDamage(damage);
+        }
     }
 
     #endregion
