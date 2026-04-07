@@ -78,12 +78,27 @@ public class Player : Character
         Console.WriteLine($"골드: {Gold}");
     }
 
+    // 기본 공격 메서드 (override)
     public override int Attack(Character target)
     {
         // TODO : 장착무기 또는 방어구에 따른 추가 데미지 계산
         int attackDamage = AttackPower;
         
         return target.TakeDamage(attackDamage);
+    }
+
+    // 스킬 공격 (MP 소모) : Player 전용 메서드
+    public int SkillAttack(Character target)
+    {
+        int mpCost = 15;
+        
+        // 스킬 공격 = 기본공격 1.5 데미지
+        int totoalDamage = AttackPower;
+        totoalDamage = (int)(totoalDamage * 1.5);
+
+        CurrentMP -= mpCost;
+        
+        return target.TakeDamage(totoalDamage);
     }
     #endregion
 }
