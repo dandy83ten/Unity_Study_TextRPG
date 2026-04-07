@@ -58,7 +58,10 @@ public class BattleSystem
             switch (input)
             {
                 case "1":
-                    // TODO : 공격 로직
+                    // 공격 로직
+                    int damage = player.Attack(enemy);
+                    Console.WriteLine($"\n{player.Name}의 공격! {enemy.Name}에게 {damage}의 피해를 입혔습니다.");
+                    Console.WriteLine($"{enemy.Name}의 남은 HP: {enemy.CurrentHP}/{enemy.MaxHP}");
                     break;
                 case "2":
                     // TODO : 스킬 로직
