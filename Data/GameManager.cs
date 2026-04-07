@@ -1,4 +1,5 @@
 using TextRPG.Models;
+using TextRPG.Systems;
 using TextRPG.Utils;
 
 namespace TextRPG.Data;
@@ -125,6 +126,11 @@ public class GameManager
         Enemy enemy = Enemy.CreateEnemy(Player.Level);
         enemy.DisplayInfo();
 
+        // 전투 테스트
+        BattleSystem battleSystem = new BattleSystem();
+        bool playerWin = battleSystem.StartBattle(Player, enemy);
+        
+        
         ConsoleUI.PressAnyKey();
     }
     #endregion
