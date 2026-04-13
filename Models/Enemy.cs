@@ -49,7 +49,6 @@ public class Enemy : Character
         Console.WriteLine($"공격력: {AttackPower}");
         Console.WriteLine($"방어력: {Defense}");
         Console.WriteLine("=======================");
-        
     }
     
     public override int Attack(Character target)
