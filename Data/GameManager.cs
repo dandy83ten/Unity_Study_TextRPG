@@ -35,6 +35,8 @@ public class GameManager
         // 전투 시스템 초기화
         BattleSystem = new BattleSystem();
         
+        // 상점 시스템 초기화
+        ShopSystem = new ShopSystem();
     }
 
     #endregion
@@ -48,6 +50,9 @@ public class GameManager
     
     // 인벤토리 시스템
     public InventorySystem Inventory { get; private set; }
+    
+    // 상점 시스템
+    public ShopSystem ShopSystem { get; private set; }
     
     // 게임 실행 여부
     public bool IsRunning { get; private set; } = true;
@@ -83,11 +88,6 @@ public class GameManager
         {
             ConsoleUI.ShowGameOver();
         }
-        
-        // TODO : 인벤토리 초기화
-        // TODO : 초기 아이템 지급
-
-
     }
     #endregion
 
@@ -161,9 +161,9 @@ public class GameManager
         Inventory.AddItem(armor);
         
         // 포션 지급
-        Inventory.AddItem(Consumable.CreatePosition("체력포션"));
-        Inventory.AddItem(Consumable.CreatePosition("체력포션"));
-        Inventory.AddItem(Consumable.CreatePosition("마나포션"));
+        Inventory.AddItem(Consumable.CreatePotion("체력포션"));
+        Inventory.AddItem(Consumable.CreatePotion("체력포션"));
+        Inventory.AddItem(Consumable.CreatePotion("마나포션"));
         
         // 기본 장비 착용
         Player.EquipItem(weapon);
@@ -205,7 +205,8 @@ public class GameManager
                 Inventory.ShowInventoryMenu(Player);
                 break;
             case "3":
-                // TODO : 상점 기능 구현
+                // 상점 기능 구현
+                ShopSystem.ShowShopMenu(Player, Inventory);
                 break;
             case "4":
                 // 던전 입장 및 전투 기능 구현

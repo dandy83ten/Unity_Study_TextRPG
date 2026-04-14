@@ -63,7 +63,7 @@ public class Consumable: Item
 
     #region 포션 생성 메서드
 
-    public static Consumable CreatePosition(string potionType) => potionType switch
+    public static Consumable CreatePotion(string potionType) => potionType switch
     {
         "체력포션" => new Consumable("체력포션", "50 HP를 회복하는 물약", 50, hpAmount: 50),
         "대형체력포션" => new Consumable("대형체력포션", "100 HP를 회복하는 물약", 100, hpAmount: 100),
