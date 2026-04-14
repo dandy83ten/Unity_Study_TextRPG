@@ -1,4 +1,5 @@
 using TextRPG.Models;
+using TextRPG.Utils;
 
 namespace TextRPG.Systems;
 
@@ -65,7 +66,7 @@ public class InventorySystem
         }
     }
 
-    public void ShowInventoryMenu()
+    public void ShowInventoryMenu(Player? player)
     {
         while (true)
         {
@@ -83,9 +84,11 @@ public class InventorySystem
             {
                 case "1":
                     // 아이템 사용로직
+                    UseItem(player);
                     break;
                 case "2":
                     // 아이템 버리기로직
+                    DropItem();
                     break;
                 case "0":
                     return;
@@ -95,5 +98,60 @@ public class InventorySystem
             }
         }
     }
+    #endregion
+
+    #region 아이템 사용
+
+    private void UseItem(Player player)
+    {
+        if (Items.Count == 0)
+        {
+            Console.WriteLine("인벤토리가 비어있습니다.");
+            return;
+        }
+        
+        Console.WriteLine("\n사용할 아이템 번호를 입력하세요 (0: 취소): ");
+        if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= Items.Count)
+        {
+            Item item = Items[index - 1];
+            if (item.Use(player))
+            {
+                if (item is Consumable)
+                {
+                    RemoveItem(item);
+                }
+            }
+        }
+        else if (index != 0)
+        {
+            Console.WriteLine("잘못된 선택입니다.");
+            ConsoleUI.PressAnyKey();
+        }
+    }
+    #endregion
+
+    #region 아이템 버리기
+
+    private void DropItem()
+    {
+        if (Items.Count == 0) return;
+        
+        Console.WriteLine("\n버릴 아이템 번호를 입력하세요 (0: 취소): ");
+        if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= Items.Count)
+        {
+            Item item = Items[index - 1];
+            Console.WriteLine($"{item.Name}을 버리시겠습니까? (y/n)");
+            if (Console.ReadLine()?.ToLower() == "y")
+            {
+                RemoveItem(item);
+            }
+        }
+        else if (index != 0)
+        {
+            Console .WriteLine("잘못된 선택입니다.");
+            ConsoleUI.PressAnyKey();
+        }
+    }
+
     #endregion
 }

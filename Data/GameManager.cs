@@ -198,7 +198,7 @@ public class GameManager
                 break;
             case "2":
                 // 인벤토리 기능 구현
-                Inventory.ShowInventoryMenu();
+                Inventory.ShowInventoryMenu(Player);
                 break;
             case "3":
                 // TODO : 상점 기능 구현
