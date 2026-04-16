@@ -113,7 +113,6 @@ public class SaveLoadSystem
         {
             // 1. JSON 파일에서 문자열 읽기
             string jsonString = System.IO.File.ReadAllText(SaveFilePath);
-            Console.WriteLine(jsonString);
             
             // 2. JSON 문자열 -> DTO 변환 (역직렬화)
             var saveData = JsonSerializer.Deserialize<GameSaveData>(jsonString, jsonOptions);
@@ -151,9 +150,72 @@ public class SaveLoadSystem
     }
     
     // ItemData DTO를 Inventory 클래스로 변환 메서드
+    public static InventorySystem LoadInventory(List<ItemData> itemDataList, Player player)
+    {
+        var inventory = new InventorySystem();
+
+        foreach (var itemData in itemDataList)
+        {
+            Item? item = null;
+
+            if (itemData.ItemType == "Equipment")
+            {
+                // 장착 슬롯 확인
+                var slot = Enum.Parse<EquipmentSlot>(itemData.Slot);
+                if (slot == EquipmentSlot.Weapon)
+                {
+                    item = Equipment.CreateWeapon(itemData.Name);
+                }
+                else if (slot == EquipmentSlot.Armor)
+                {
+                    item = Equipment.CreateArmor(itemData.Name);
+                }
+            }
+            else if (itemData.ItemType == "Consumable")
+            {
+                item = Consumable.CreatePotion(itemData.Name);
+            }
+                
+            if (item != null)
+                inventory.AddItem(item);
+        }
+        
+        return inventory;
+    }
     
     // 저장된 장착 아이템을 복원 메서드(무기/방어구)
+    public static void LoadEquippedItems(Player player, PlayerData data, InventorySystem inventory)
+    {
+        // 무기 장착 복원
+        if (!string.IsNullOrEmpty(data.EquipedWeaponName))
+        {
+            // 인벤토리에서 같은 무기를 찾기
+            for (int i = 0; inventory.Count > i; ++i)
+            {
+                var item = inventory.GetItem(i);
+                if (item is Equipment equipment && equipment.Slot == EquipmentSlot.Weapon && equipment.Name == data.EquipedWeaponName)
+                {
+                    player.EquipItem(equipment);
+                    break;
+                }
+            }
+        }
+
+        // 방어구 장착 복원
+        if (!string.IsNullOrEmpty(data.EquipedArmorName))
+        {
+            for (int i = 0; inventory.Count > i; ++i)
+            {
+                var item = inventory.GetItem(i);
+                if (item is Equipment equipment && equipment.Slot == EquipmentSlot.Armor && equipment.Name == data.EquipedArmorName)
+                {
+                    player.EquipItem(equipment);
+                    break;
+                }
+            }
+        }
+    }
     
-    // 아이템 생성 -> Inventory 추가
+    
     #endregion
 }
