@@ -4,16 +4,16 @@ namespace TextRPG.Models;
 public abstract class Character
 {
     #region 프로퍼티
-    public string Name { get; protected set; } 
-    public int CurrentHP { get; protected set; }
-    public int CurrentMP { get; protected set; }
+    public string Name { get; set; } 
+    public int CurrentHP { get; set; }
+    public int CurrentMP { get; set; }
     
-    public int MaxHP { get; protected set; }
-    public int MaxMP { get; protected set; }
+    public int MaxHP { get; set; }
+    public int MaxMP { get; set; }
     
-    public int AttackPower { get; protected set; }
-    public int Defense { get; protected set; }
-    public int Level { get; protected set; }
+    public int AttackPower { get; set; }
+    public int Defense { get; set; }
+    public int Level { get; set; }
 
     // 생존 여부
     public bool IsAlive => CurrentHP > 0;

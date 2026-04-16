@@ -6,13 +6,13 @@ public class Player : Character
     // 직업
     public JobType Job { get; private set; }
     // 골드
-    public int Gold { get; protected set; }
+    public int Gold { get; set; }
     
     // 장착 무기
-    public Equipment? EquipmentWeapon { get; private set; }
+    public Equipment? EquipedWeapon { get; private set; }
     
     // 장착 방어구
-    public Equipment? EquipmentArmor { get; private set; }
+    public Equipment? EquipedArmor { get; private set; }
     #endregion
 
     #region 생성자
@@ -83,25 +83,25 @@ public class Player : Character
         Console.WriteLine($"HP: {CurrentHP}/{MaxHP}");
         Console.WriteLine($"MP: {CurrentMP}/{MaxMP}");
 
-        int attackBonus = EquipmentWeapon != null ? EquipmentWeapon.AttackBonus : 0;
-        int defenseBonuse = EquipmentArmor != null ? EquipmentArmor.DefenseBonuse : 0;
+        int attackBonus = EquipedWeapon != null ? EquipedWeapon.AttackBonus : 0;
+        int defenseBonuse = EquipedArmor != null ? EquipedArmor.DefenseBonuse : 0;
         
         Console.WriteLine($"ATK: {AttackPower} (+{attackBonus})");
         Console.WriteLine($"DEF: {Defense} (+{defenseBonuse})");
         Console.WriteLine($"골드: {Gold}");
         
         // 장착 아이템 목록
-        if (EquipmentWeapon != null || EquipmentArmor != null)
+        if (EquipedWeapon != null || EquipedArmor != null)
         {
             Console.WriteLine("\n[장착 중인 장비 목록");
-            if (EquipmentWeapon != null)
+            if (EquipedWeapon != null)
             {
-                Console.WriteLine($"무기: {EquipmentWeapon.Name}");
+                Console.WriteLine($"무기: {EquipedWeapon.Name}");
             }
 
-            if (EquipmentArmor != null)
+            if (EquipedArmor != null)
             {
-                Console.WriteLine($"방어구: {EquipmentArmor.Name}");
+                Console.WriteLine($"방어구: {EquipedArmor.Name}");
             }
         }
     }
@@ -111,7 +111,7 @@ public class Player : Character
     {
         // 장착무기 또는 방어구에 따른 추가 데미지 계산
         int attackDamage = AttackPower;
-        attackDamage += EquipmentWeapon?.AttackBonus ?? 0; 
+        attackDamage += EquipedWeapon?.AttackBonus ?? 0; 
         
         // null 병합 연산자 : ??
         
@@ -126,7 +126,7 @@ public class Player : Character
         
         // 스킬 공격 = 기본공격 1.5 데미지
         int totoalDamage = AttackPower;
-        totoalDamage += EquipmentWeapon?.AttackBonus ?? 0;
+        totoalDamage += EquipedWeapon?.AttackBonus ?? 0;
         totoalDamage = (int)(totoalDamage * 1.5);
 
         CurrentMP -= mpCost;
@@ -140,6 +140,17 @@ public class Player : Character
         Gold += amount;
         Console.WriteLine($"골드 +{amount} 획득! 현재 골드: {Gold}");
     }
+    
+    // 골드 차감
+    public void SpendGold(int amount)
+    {
+        if (Gold >= amount)
+        {
+            Gold -= amount;
+        }
+    }
+    
+    
     // 장비 착용
     public void EquipItem(Equipment newEquipment)
     {
@@ -148,13 +159,13 @@ public class Player : Character
         switch (newEquipment.Slot)
         {
             case EquipmentSlot.Weapon:
-                prevEquipment = EquipmentWeapon;
-                EquipmentWeapon = newEquipment;
+                prevEquipment = EquipedWeapon;
+                EquipedWeapon = newEquipment;
                 break;
 
             case EquipmentSlot.Armor:
-                prevEquipment = EquipmentArmor;
-                EquipmentArmor = newEquipment;
+                prevEquipment = EquipedArmor;
+                EquipedArmor = newEquipment;
                 break;
         }
         
@@ -173,12 +184,12 @@ public class Player : Character
         switch (slot)
         {
             case EquipmentSlot.Weapon:
-                equipment = EquipmentWeapon;
-                EquipmentWeapon = null;
+                equipment = EquipedWeapon;
+                EquipedWeapon = null;
                 break;
             case EquipmentSlot.Armor:
-                equipment = EquipmentArmor;
-                EquipmentArmor = null;
+                equipment = EquipedArmor;
+                EquipedArmor = null;
                 break;
         }
 

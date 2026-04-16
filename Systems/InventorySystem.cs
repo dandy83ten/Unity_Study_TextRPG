@@ -41,6 +41,17 @@ public class InventorySystem
 
         return false;
     }
+    
+    // 인덱스 값으로 아이템 반환
+    public Item? GetItem(int index)
+    {
+        if (index >= 0 && index < Items.Count)
+        {
+            return Items[index];    
+        }
+
+        return null;
+    }
     #endregion
 
     #region  인벤토리 표시
@@ -146,11 +157,11 @@ public class InventorySystem
                 // 장착 해제 로직
                 if (item is Equipment equipment)
                 {
-                    if (equipment == player.EquipmentWeapon)
+                    if (equipment == player.EquipedWeapon)
                     {
                         player.UnequipItem(EquipmentSlot.Weapon);
                     }
-                    else if (equipment == player.EquipmentArmor)
+                    else if (equipment == player.EquipedArmor)
                     {
                         player.UnequipItem(EquipmentSlot.Armor);
                     }
